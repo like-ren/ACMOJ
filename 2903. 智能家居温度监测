@@ -1,0 +1,29 @@
+#include <iostream>
+using namespace std;
+
+int main(){
+    int in[1005]={0};
+    int N=0,Q=0,li=0;
+
+    cin>>N>>Q;
+
+    //��ȡ�¶�δ�ﵽN��ʱ������������ݵ�ƽ����
+    int sum=0;
+    while(li<N){
+        cin>>in[li];
+        sum+=in[li];
+        li++; 
+        cout<<sum/li<<endl;     
+    }
+
+    //��ȡ�¶ȴﵽN��sum��ȥ��ǰ��ģ����������ģ�����N
+    while(li<Q){
+        //li=3
+        cin>>in[li];
+        sum=sum-in[li-N]+in[li];
+        //cout<<"sum=in["<<li-N+2<<"]+...+in["<<li<<"]"<<endl;
+        li++;
+        cout<<sum/N<<endl;
+    }
+    return 0;
+}
