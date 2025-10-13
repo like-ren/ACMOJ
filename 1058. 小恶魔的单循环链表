@@ -1,0 +1,128 @@
+#include <iostream>
+#include <cstdio>
+using namespace std;
+
+namespace LIST
+{
+
+    struct NODE {
+        int data=0;
+        NODE *next;
+    };
+
+    NODE *head = nullptr;
+    int len = 0;
+
+    void init() {
+        head=new NODE;
+        head->next=head;
+        len=0;
+    }
+    NODE* move(int i) {
+        if(i<0||i>len) return head;
+        else{
+            NODE *tmp=head->next;
+            int j=0;
+            while(j!=i){
+                tmp=tmp->next;
+                j++;
+            }
+            return tmp;
+        }
+        
+    }
+    void insert(int i, int x) {
+        NODE *tmp=move(i-1);
+        NODE *NewNode=new NODE;
+        NewNode->data=x;
+        NewNode->next=move(i);
+        tmp->next=NewNode;
+        len++;
+    }
+    void remove(int i) {
+        NODE *tmp=move(i),*BeforeTmp=move(i-1);
+        BeforeTmp->next=tmp->next;
+        delete tmp;
+        len--;       
+    }
+    void remove_insert(int i) {
+        NODE *tmp=move(i);
+        insert(len,tmp->data);
+        remove(i);
+    }
+    void get_length() {
+        cout<<len<<endl;
+    }
+    void query(int i) {
+        if(i<0||i>=len){
+            cout<<"-1"<<endl;
+            return;
+        }
+        NODE *tmp=move(i);
+        cout<<tmp->data<<endl;
+    }
+    void get_max() {
+        if(len==0){
+            cout<<"-1"<<endl;
+            return;
+        }
+        int MaxNum=head->next->data,j=0;
+        NODE *tmp=head->next;
+        while(j<len){
+            if(MaxNum<tmp->data)    MaxNum=tmp->data;
+            j++;
+            tmp=tmp->next;
+        }
+        cout<<MaxNum<<endl;
+    }
+    void clear() {
+        NODE *p=head->next,*q=p->next;
+        while(q!=head){
+            delete p;
+            p=q;
+            q=p->next;
+        }
+        delete p;
+        delete q;
+        head=nullptr;
+        len=0;
+    }
+
+}
+int n;
+int main()
+{
+    cin >> n;
+    int op, x, p;
+    LIST::init();
+    for (int _ = 0; _ < n; ++_)
+    {
+        cin >> op;
+        switch(op) {
+            case 0:
+                LIST::get_length();
+                break;
+            case 1:
+                cin >> p >> x;
+                LIST::insert(p,x);
+                break;
+            case 2:
+                cin >> p;
+                LIST::query(p);
+                break;
+            case 3:
+                cin >> p;
+                LIST::remove(p);
+                break;
+            case 4:
+                cin >> p;
+                LIST::remove_insert(p);
+                break;
+            case 5:
+                LIST::get_max();
+                break;
+        }
+    }
+    LIST::clear();
+    return 0;
+}
