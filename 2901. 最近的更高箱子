@@ -1,0 +1,33 @@
+#include <iostream>
+using namespace std;
+
+int main(){
+    int n=0;
+    long in[100005]={0},out[100005]={0};
+    cin>>n;
+    for(int i=0;i<n;i++){
+        cin>>in[i];
+    }
+
+    int now=n-2;
+    while(now>=0){
+        if(in[now]<in[now+1]){
+            out[now]=now+2;
+        }
+        else{
+            long high=out[now+1]-1;
+            while(high!=(-1) && in[now]>=in[high]){
+                high=out[high]-1;
+            }
+            out[now]=high+1;
+        }
+        now--;
+    }
+
+    for(int i=0;i<n;i++){
+        cout<<out[i]<<' ';
+    }
+
+    return 0;
+
+}
