@@ -1,0 +1,74 @@
+#include <iostream>
+using namespace std;
+
+void insert(int pos,int data);
+void del(int pos);
+//注意！输入的pos是从1开始的！
+
+int len;
+int SeqList[2100]={0};
+
+int main(){
+    
+    cin>>len;
+    for(int i=0;i<len;i++){
+        cin>>SeqList[i];
+    }
+
+    int NumIns,NowIns=0;
+    cin>>NumIns;
+    char Ins[1100];
+    while(NowIns!=NumIns){
+
+        cin>>Ins[NowIns];
+
+        if(Ins[NowIns]=='I'){
+            int pos,data;
+            cin>>pos>>data;
+            if(pos>=1 && pos<=len+1){
+                insert(pos,data);
+            }
+            //insert的范围错误，len=4时在末尾插入pos会大于len，但是是合法的
+        }
+
+        if(Ins[NowIns]=='D'){
+            int pos;
+            cin>>pos;
+            if(pos>=1 && pos<=len){
+               del(pos);
+            }
+        }
+
+        //注意！continue会整个跳出本次while循环，导致NowIns没有执行++
+
+        NowIns++;
+    }
+    
+    if(len==0){
+        cout<<"EMPTY"<<endl;
+    }
+    else{
+        for(int i=0;i<len;i++)
+        {
+        cout<<SeqList[i]<<' ';
+        }
+    }
+    
+
+    return 0;
+}
+
+void insert(int pos,int data){
+    for(int i=len;i>=pos ;i--){
+        SeqList[i]=SeqList[i-1];
+    }
+    SeqList[pos-1]=data;
+    len++;
+}
+
+void del(int pos){
+    for(int i=pos-1;i<len-1;i++){
+        SeqList[i]=SeqList[i+1];
+    }
+    len--;
+}
