@@ -1,0 +1,38 @@
+#include <iostream>
+#include <sstream>
+#include <string>
+using namespace std;
+
+int maxdepth(int *tree, int &index ,int &count,int &ans){
+    int leftmax=0,rightmax=0;
+    if(index>=count)    return 0;
+    if(tree[index]==-1){
+        index++;
+        return 0;
+    }
+    
+    index++;
+    leftmax=maxdepth(tree,index,count,ans);
+    rightmax=maxdepth(tree,index,count,ans);
+
+    ans=max(ans,leftmax+rightmax);
+    return max(leftmax,rightmax)+1;
+}
+
+int main(){
+    string info;
+    int Btree[10000]={0};
+    getline(cin,info);
+    stringstream ss(info);
+    int num=0,count=0;
+    while(ss>>num){
+        Btree[count]=num;
+        count++;
+    }
+
+    int i=0,ans=0;
+    maxdepth(Btree,i,count,ans);
+
+    cout<<ans<<endl;
+    return 0;
+}
