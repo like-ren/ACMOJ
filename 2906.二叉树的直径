@@ -1,0 +1,66 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+
+using namespace std;
+
+
+
+int ans=0;
+
+class Tree{
+
+    public:
+    struct Node{
+    int data;
+    Node *left;
+    Node *right;
+    Node(int x):data(x),left(nullptr),right(nullptr){};
+    };
+
+    static Node* build(int *tree,int &i,int count){
+        if(i>=count){
+            return nullptr;
+        }
+        if(tree[i]==-1){
+            i++;
+            return nullptr;
+        }
+        
+        Node *now=new Node(tree[i]);
+        i++;
+        now->left=build(tree,i,count);
+        now->right=build(tree,i,count);
+
+        return now;
+    }
+
+    static int depth(Node *root){
+        if(root==nullptr)   return 0;
+        int leftdepth=depth(root->left);
+        int rightdepth=depth(root->right);
+
+        ans=max(ans,leftdepth+rightdepth);
+        return max(leftdepth,rightdepth)+1;
+
+    }
+};
+
+int main(){
+    string info;
+    int Btree[10000]={0};
+    getline(cin,info);
+    stringstream ss(info);
+    int num=0,count=0;
+    while(ss>>num){
+        Btree[count]=num;
+        count++;
+    }
+
+    int index=0;
+    Tree::Node* root=Tree::build(Btree,index,count);
+    Tree::depth(root);
+
+    cout<<ans<<endl;
+    return 0;
+}
